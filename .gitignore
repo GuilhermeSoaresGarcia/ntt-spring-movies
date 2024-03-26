@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Arquivos do Bruno ###
+ntt-spring-movies/
+*.bru
