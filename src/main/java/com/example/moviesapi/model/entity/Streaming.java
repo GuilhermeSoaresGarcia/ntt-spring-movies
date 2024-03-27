@@ -6,7 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +33,11 @@ public class Streaming {
   @NotNull
   private String url;
 
-  @OneToMany(mappedBy = "streaming")
+  @ManyToMany
+  @JoinTable(
+    name = "streaming_movie",
+    joinColumns = @JoinColumn(name = "streaming_id"),
+    inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
   private List<Movie> movies;
 }

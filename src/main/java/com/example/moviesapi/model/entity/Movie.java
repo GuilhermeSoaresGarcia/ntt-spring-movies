@@ -43,10 +43,9 @@ public class Movie {
   private Franchise franchise;
 
   @ManyToMany(mappedBy = "movies")
-  private List<Director> directors;
+  private List<Director> directors;  
 
-  @ManyToOne
-  @JoinColumn(name = "streaming_id")
+  @ManyToMany(mappedBy = "movies")
   private List<Streaming> streaming;
 
   @ManyToMany
@@ -56,5 +55,4 @@ public class Movie {
     inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
   private List<Actor> actors;
-
 }
