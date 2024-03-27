@@ -5,45 +5,30 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import java.time.LocalDate;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "movies")
+@Data
+@NoArgsConstructor
 public class Movie {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+
+  @NotNull
+  @NotBlank
   private String title;
-  private LocalDate releaseDate;
+  private Genre genre;
+  private Studio studio;
+  private Franchise franchise;
+  private List<Director> directors;
+  private List<Streaming> streaming;
+  private List<Actor> actors;
 
-  public Movie() {
-  }
-
-  public Movie(long id, String title, LocalDate releaseDate) {
-    this.id = id;
-    this.title = title;
-    this.releaseDate = releaseDate;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public LocalDate getReleaseDate() {
-    return releaseDate;
-  }
-
-  public void setReleaseDate(LocalDate releaseDate) {
-    this.releaseDate = releaseDate;
-  }
 }
