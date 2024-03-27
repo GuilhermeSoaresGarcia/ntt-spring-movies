@@ -2,10 +2,14 @@ package com.example.moviesapi.controller;
 
 import com.example.moviesapi.model.entity.Movie;
 import com.example.moviesapi.model.repository.MovieRepository;
+import com.example.moviesapi.service.MovieService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,41 +23,46 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("movies")
 public class MovieController {
 
-  private MovieRepository movieRepository;
+  private MovieService movieService;
 
   @Autowired
-  public MovieController(MovieRepository movieRepository) {
-    this.movieRepository = movieRepository;
+  public MovieController(MovieService movieService) {
+    this.movieService = movieService;
   }
 
   @GetMapping
-  public List<Movie> getAllMovies() {
-    return movieRepository.findAll();
+  public ResponseEntity<List<Movie>> getAllMovies() {
+    return ResponseEntity.ok(movieService.getAllMovies());
   }
 
   @GetMapping("/{id}")
-  public Movie getMovieById(@PathVariable Long id) {
-    return movieRepository.findById(id).get();
+  public ResponseEntity<?> getMovieById(@PathVariable Long id) {
+    Optional<Movie> optionalMovie = movieService.getMovieById(id);
+    if (optionalMovie.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+          .body("Nenhum registro encontrado com este ID");
+    }
+    return ResponseEntity.ok(optionalMovie.get());
   }
 
   @PostMapping
   public Movie registerMovie(@RequestBody Movie movie) {
-    Movie result = movieRepository.save(movie);
+    Movie result = movieService.registerMovie(movie);
     return result;
   }
 
   @PutMapping("/{id}")
   public Movie updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
-    Movie movieToUpdate = movieRepository.findById(id).get();
+    Movie movieToUpdate = movieService.getMovieById(id);
     movieToUpdate.setTitle(movie.getTitle());
     movieToUpdate.setReleaseDate(movie.getReleaseDate());
-    Movie result = movieRepository.save(movieToUpdate);
+    Movie result = movieService.updateMovie(id, movieToUpdate);
     return result;
   }
 
   @DeleteMapping("/{id}")
   public String deleteMovie(@PathVariable Long id) {
-    movieRepository.deleteById(id);
+    movieService.deleteMovie(id);
     return "Deleted";
   }
 }
