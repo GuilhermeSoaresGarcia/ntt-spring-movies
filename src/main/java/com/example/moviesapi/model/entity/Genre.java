@@ -1,5 +1,6 @@
 package com.example.moviesapi.model.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class Genre {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String genreName;
 
+  @Column(columnDefinition = "VARCHAR(255)")
+  private String genreName;
 }

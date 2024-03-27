@@ -4,10 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,11 +29,32 @@ public class Movie {
   @NotNull
   @NotBlank
   private String title;
+
+  @ManyToOne
+  @JoinColumn(name = "genre_id")
   private Genre genre;
+
+  @ManyToOne
+  @JoinColumn(name = "studio_id")
   private Studio studio;
+
+  @ManyToOne
+  @JoinColumn(name = "franchise_id")
   private Franchise franchise;
+
+  @ManyToMany(mappedBy = "movies")
   private List<Director> directors;
+
+  @ManyToOne
+  @JoinColumn(name = "streaming_id")
   private List<Streaming> streaming;
+
+  @ManyToMany
+  @JoinTable(
+    name = "movie_actor", 
+    joinColumns = @JoinColumn(name = "movie_id"),
+    inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
   private List<Actor> actors;
 
 }
