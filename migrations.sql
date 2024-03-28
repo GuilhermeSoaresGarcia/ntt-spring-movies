@@ -1,3 +1,5 @@
+USE movies;
+
 INSERT INTO movies (title) VALUES ('The Matrix');
 INSERT INTO movies (title) VALUES ('The Silence of the Lambs');
 INSERT INTO movies (title) VALUES ('Back to the Future');
@@ -49,3 +51,11 @@ INSERT INTO users (name, username, email, password) VALUES ('Guilherme', 'gui', 
 INSERT INTO users (name, username, email, password) VALUES ('Marina', 'mar', 'marina@placeholder.com', '123abc');
 INSERT INTO users (name, username, email, password) VALUES ('Valdor', 'valdor', 'valdor@placeholder.com', 'password');
 
+INSERT INTO franchises (name) VALUES ('Fast & Furious');
+INSERT INTO franchises (name) VALUES ('Lord of the Rings');
+INSERT INTO franchises (name) VALUES ('Back to the Future');
+INSERT INTO franchises (name) VALUES ('Saw');
+
+INSERT INTO streamings (name, url) VALUES ('Netflix', 'www.netflix.com');
+INSERT INTO streamings (name, url) VALUES ('GloboPlay', 'www.globoplay.com');
+INSERT INTO streamings (name, url) VALUES ('Amazon Prime', 'www.prime.com');
