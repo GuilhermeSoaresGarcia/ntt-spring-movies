@@ -1,6 +1,6 @@
 # NTT Spring Movies
 
-- Projeto desenvolvido em framework [Spring](https://github.com/angular/angular-cli), versão 3.2.4
+- Projeto desenvolvido em framework [Spring](https://spring.io/), versão 3.2.4
 - Utilizadas bibliotecas Spring Web, Spring Devtools, Spring Validation, driver MySQL e Lombok
 
 O objetivo deste projeto foi desensvolver uma API rest utilizando o Spring e conectando-se a um bando de dados - neste caso, o MySQL.
