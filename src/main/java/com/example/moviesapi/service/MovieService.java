@@ -3,6 +3,7 @@ package com.example.moviesapi.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.moviesapi.model.entity.Franchise;
 import com.example.moviesapi.model.entity.Movie;
 import com.example.moviesapi.model.repository.MovieRepository;
 
@@ -14,6 +15,8 @@ public class MovieService {
 
   @Autowired
   private MovieRepository movieRepository;
+  @Autowired
+  private FranchiseService franchiseService;
 
   public List<Movie> getAllMovies() {
     return movieRepository.findAll();
@@ -54,4 +57,11 @@ public class MovieService {
     return "Deleted";
   }
 
+  public Movie associateMovieToFranchise(Long movie_id, Long franchise_id) {
+    Movie movie = getMovieById(movie_id).get();
+    Franchise franchise = franchiseService.getFranchiseById(franchise_id);
+    movie.setFranchise(franchise);
+    Movie result = movieRepository.save(movie);
+    return result;
+  }
 }

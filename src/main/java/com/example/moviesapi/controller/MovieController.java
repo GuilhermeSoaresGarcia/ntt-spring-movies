@@ -30,19 +30,19 @@ public class MovieController {
   public ResponseEntity<List<Movie>> getAllMovies() {
     return ResponseEntity.ok(movieService.getAllMovies());
   }
-  
+
   @GetMapping("/{id}")
   public ResponseEntity<?> getMovieById(@PathVariable Long id) {
     Optional<Movie> optionalMovie = movieService.getMovieById(id);
     if (optionalMovie.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND)
-      .body("Nenhum registro encontrado com este ID");
+          .body("Nenhum registro encontrado com este ID");
     }
     return ResponseEntity.ok(optionalMovie.get());
   }
 
   @GetMapping
-  public ResponseEntity<List<Movie>> getMovieListByTitle(@RequestParam(name="title") String title) {
+  public ResponseEntity<List<Movie>> getMovieListByTitle(@RequestParam(name = "title") String title) {
     List<Movie> movieList = movieService.getMovieListByTitle(title);
     return ResponseEntity.ok(movieList);
   }
@@ -64,4 +64,13 @@ public class MovieController {
     movieService.deleteMovie(id);
     return "Deleted";
   }
+
+  @PutMapping("{movie_id}/franchise/{franchise_id}")
+  public Movie associateMovieToFranchise(
+      @PathVariable Long movie_id,
+      @PathVariable Long franchise_id) {
+    Movie result = movieService.associateMovieToFranchise(movie_id, franchise_id);
+    return result;
+  }
+
 }
