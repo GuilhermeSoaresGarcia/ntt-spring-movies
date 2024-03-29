@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.example.moviesapi.dto.DirectorDTO;
 import com.example.moviesapi.model.entity.Director;
 import com.example.moviesapi.model.repository.DirectorRepository;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Service
 public class DirectorService {
@@ -15,36 +18,40 @@ public class DirectorService {
   @Autowired
   DirectorRepository directorRepository;
 
-  public List<Director> getAllDirectors() {
-    return directorRepository.findAll();
+  public List<DirectorDTO> getAllDirectors() {
+    return directorRepository.findAll().stream()
+        .map(director -> new DirectorDTO(
+            director.getId(),
+            director.getName(),
+            director.getMovies().stream()
+                .map(movie -> movie.getTitle())
+                .toList()))
+        .toList();
   }
 
-  public Director getDirectorById(Long id) {
-    if (id == null) {
-      return null;
-    }
-
+  public DirectorDTO getDirectorById(Long id) {
+    @SuppressWarnings("null")
     Optional<Director> optionalDirector = directorRepository.findById(id);
 
-    if (optionalDirector.isEmpty()) {
-      return null;
-    }
+    DirectorDTO result = new DirectorDTO(
+        optionalDirector.get().getId(),
+        optionalDirector.get().getName(),
+        optionalDirector.get().getMovies()
+            .stream()
+            .map(movie -> movie.getTitle())
+            .toList());
 
-    return optionalDirector.get();
+    return result;
   }
 
   public Director registerDirector(Director director) {
     if (director.getId() != null) {
-      return null;
+      throw new RuntimeException("ID não deve ser informado");
     }
     return directorRepository.save(director);
   }
 
   public Director updateDirector(Director director) {
-    if (director.getId() == null) {
-      return null;
-    }
-
     @SuppressWarnings("null")
     Director directorToUpdate = directorRepository.findById(director.getId()).get();
     directorToUpdate.setName(director.getName());
@@ -52,11 +59,9 @@ public class DirectorService {
     return result;
   }
 
-  public String deleteDirector(Long id) {
-    Director directorToBeDeleted = getDirectorById(id);
-    if (directorToBeDeleted == null) {
-      return "Não foi possível excluir pois nada foi encontrado com o ID " + id;
-    }
+  @SuppressWarnings("null")
+  public String deleteDirector(@NotNull @Valid Long id) {
+    Director directorToBeDeleted = getDirectorById(id).toDirector();
     String directorName = directorToBeDeleted.getName();
     directorRepository.deleteById(id);
     return "O diretor '" + directorName + "' de ID " + id + " foi excluído com sucesso!";
