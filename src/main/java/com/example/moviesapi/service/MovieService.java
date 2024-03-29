@@ -2,11 +2,10 @@ package com.example.moviesapi.service;
 
 import java.util.List;
 import java.util.Optional;
-
+import com.example.moviesapi.model.entity.Actor;
 import com.example.moviesapi.model.entity.Franchise;
 import com.example.moviesapi.model.entity.Movie;
 import com.example.moviesapi.model.repository.MovieRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,8 @@ public class MovieService {
   private MovieRepository movieRepository;
   @Autowired
   private FranchiseService franchiseService;
+  @Autowired
+  private ActorService actorService;
 
   public List<Movie> getAllMovies() {
     return movieRepository.findAll();
@@ -52,7 +53,7 @@ public class MovieService {
   }
 
   @SuppressWarnings("null")
-	public String deleteMovie(Long id) {
+  public String deleteMovie(Long id) {
     movieRepository.deleteById(id);
     return "Deleted";
   }
@@ -62,6 +63,23 @@ public class MovieService {
     Franchise franchise = franchiseService.getFranchiseById(franchise_id);
     movie.setFranchise(franchise);
     Movie result = movieRepository.save(movie);
+    return result;
+  }
+
+  public String addActorToMovie(Long movie_id, Long actor_id) {
+    Movie movie = getMovieById(movie_id)
+        .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+    Actor actor = actorService.getActorById(actor_id);
+
+    List<Actor> actorList = movie.getActors();
+    actorList.add(actor);
+    movie.setActors(actorList);
+    movieRepository.save(movie);
+
+    String result = String.format(
+        "O ator '%s' foi incluído no filme '%s'",
+        actor.getName(), movie.getTitle());
+
     return result;
   }
 }

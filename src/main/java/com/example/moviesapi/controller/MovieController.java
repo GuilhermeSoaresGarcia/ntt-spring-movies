@@ -73,4 +73,9 @@ public class MovieController {
     return result;
   }
 
+  @PutMapping("{movie_id}/add_actor/{actor_id}")
+  public ResponseEntity<String> addActorToMovie(@PathVariable Long movie_id, @PathVariable Long actor_id) {
+    String result = movieService.addActorToMovie(movie_id, actor_id);
+    return ResponseEntity.ok(result);
+  }
 }
