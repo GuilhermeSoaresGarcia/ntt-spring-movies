@@ -1,16 +1,20 @@
 package com.example.moviesapi.controller;
 
+import com.example.moviesapi.dto.DirectorDTO;
 import com.example.moviesapi.model.entity.Director;
 import com.example.moviesapi.service.DirectorService;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,27 +27,48 @@ public class DirectorController {
   DirectorService directorService;
 
   @GetMapping("/list")
-  public List<Director> getAllDirectors() {
-    return directorService.getAllDirectors();
+  public ResponseEntity<List<DirectorDTO>> getAllDirectors() {
+    return ResponseEntity.ok(directorService.getAllDirectors());
   }
 
   @GetMapping("/{id}")
-  public Director getDirectorById(@PathVariable Long id) {
-    return directorService.getDirectorById(id);
+  public ResponseEntity<DirectorDTO> getDirectorById(@PathVariable Long id) {
+    try {
+      return ResponseEntity.ok(directorService.getDirectorById(id));
+
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, e.getMessage());
+    }
   }
 
   @PostMapping("/save")
   public Director registerDirector(@RequestBody Director director) {
-    return directorService.registerDirector(director);
+    try {
+      return directorService.registerDirector(director);
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, e.getMessage());
+    }
   }
 
   @PutMapping("/update")
   public Director updateDirector(@RequestBody Director director) {
-    return directorService.updateDirector(director);
+    try {
+      return directorService.updateDirector(director);
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, e.getMessage());
+    }
   }
 
   @DeleteMapping("/delete/{id}")
   public String deleteDirector(@PathVariable Long id) {
-    return directorService.deleteDirector(id);
+    try {
+      return directorService.deleteDirector(id);
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, e.getMessage());
+    }
   }
 }
