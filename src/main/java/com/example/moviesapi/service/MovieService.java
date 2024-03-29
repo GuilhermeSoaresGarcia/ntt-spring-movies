@@ -69,7 +69,7 @@ public class MovieService {
   public String addActorToMovie(Long movie_id, Long actor_id) {
     Movie movie = getMovieById(movie_id)
         .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
-    Actor actor = actorService.getActorById(actor_id);
+    Actor actor = actorService.getActorById(actor_id).toActor();
 
     List<Actor> actorList = movie.getActors();
     actorList.add(actor);

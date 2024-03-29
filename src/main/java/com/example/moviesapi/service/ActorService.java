@@ -2,10 +2,9 @@ package com.example.moviesapi.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.example.moviesapi.dto.ActorDTO;
 import com.example.moviesapi.model.entity.Actor;
 import com.example.moviesapi.model.repository.ActorRepository;
 
@@ -15,11 +14,18 @@ public class ActorService {
   @Autowired
   ActorRepository actorRepository;
 
-  public List<Actor> getAllActors() {
-    return actorRepository.findAll();
+  public List<ActorDTO> getAllActors() {
+    return actorRepository.findAll().stream()
+        .map(actor -> new ActorDTO(
+            actor.getId(),
+            actor.getName(),
+            actor.getMovies().stream()
+                .map(movie -> movie.getTitle())
+                .toList()))
+        .toList();
   }
 
-  public Actor getActorById(Long id) {
+  public ActorDTO getActorById(Long id) {
     if (id == null) {
       return null;
     }
@@ -30,7 +36,15 @@ public class ActorService {
       return null;
     }
 
-    return optionalActor.get();
+    ActorDTO result = new ActorDTO(
+        optionalActor.get().getId(),
+        optionalActor.get().getName(),
+        optionalActor.get().getMovies()
+            .stream()
+            .map(movie -> movie.getTitle())
+            .toList());
+
+    return result;
   }
 
   public Actor registerActor(Actor actor) {
@@ -53,7 +67,8 @@ public class ActorService {
   }
 
   public String deleteActor(Long id) {
-    Actor actorToBeDeleted = getActorById(id);
+    Actor actorToBeDeleted = getActorById(id).toActor();
+
     if (actorToBeDeleted == null) {
       return "Não foi possível excluir pois nada foi encontrado com o ID " + id;
     }

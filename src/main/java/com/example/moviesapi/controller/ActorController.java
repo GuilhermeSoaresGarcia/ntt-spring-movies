@@ -1,11 +1,13 @@
 package com.example.moviesapi.controller;
 
+import com.example.moviesapi.dto.ActorDTO;
 import com.example.moviesapi.model.entity.Actor;
 import com.example.moviesapi.service.ActorService;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +25,13 @@ public class ActorController {
   ActorService actorService;
 
   @GetMapping("/list")
-  public List<Actor> getAllActors() {
-    return actorService.getAllActors();
+  public ResponseEntity<List<ActorDTO>> getAllActors() {
+    return ResponseEntity.ok(actorService.getAllActors());
   }
 
   @GetMapping("/{id}")
-  public Actor getActorById(@PathVariable Long id) {
-    return actorService.getActorById(id);
+  public ResponseEntity<ActorDTO> getActorById(@PathVariable Long id) {
+    return ResponseEntity.ok(actorService.getActorById(id));
   }
 
   @PostMapping("/save")
