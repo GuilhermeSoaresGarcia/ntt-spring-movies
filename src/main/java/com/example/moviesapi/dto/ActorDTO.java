@@ -1,8 +1,6 @@
 package com.example.moviesapi.dto;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 import com.example.moviesapi.model.entity.Actor;
 import com.example.moviesapi.model.entity.Movie;
 
@@ -18,7 +16,7 @@ public record ActorDTO(Long id, String name, List<String> movies) {
           movie.setTitle(title);
           return movie;
         })
-        .collect(Collectors.toList());
+        .toList();
     actor.setMovies(actorMovieList);
 
     return actor;
