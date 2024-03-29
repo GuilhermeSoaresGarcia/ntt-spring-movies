@@ -70,17 +70,38 @@ public class StreamingService {
     return "O streaming '" + streamingName + "' de ID " + id + " foi excluído com sucesso!";
   }
 
-   public Streaming associateStreamingToMovie(@NotNull @Valid Long movie_id, @NotNull @Valid Long streaming_id) {
-    Movie movie = movieService.getMovieById(movie_id).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+  public String associateStreamingToMovie(@NotNull @Valid Long streaming_id, @NotNull @Valid Long movie_id) {
+    Movie movie = movieService.getMovieById(movie_id)
+        .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
     Streaming streaming = getStreamingById(streaming_id);
 
     List<Movie> movieList = streaming.getMovies();
     movieList.add(movie);
     streaming.setMovies(movieList);
-    
     streamingRepository.save(streaming);
 
-    return streaming;
+    String result = String.format(
+        "O filme '%s' foi adicionado ao streaming '%s'",
+        movie.getTitle(), streaming.getName());
+
+    return result;
+  }
+
+  public String removeMovieFromStreaming(@NotNull @Valid Long streaming_id, @NotNull @Valid Long movie_id) {
+    Movie movie = movieService.getMovieById(movie_id)
+        .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+    Streaming streaming = getStreamingById(streaming_id);
+
+    List<Movie> movieList = streaming.getMovies();
+    movieList.remove(movie);
+    streaming.setMovies(movieList);
+    streamingRepository.save(streaming);
+
+    String result = String.format(
+        "O filme '%s' foi desassociado do streaming '%s'",
+        movie.getTitle(), streaming.getName());
+
+    return result;
   }
 
 }
