@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +29,7 @@ public class Actor {
   @NotBlank
   private String name;
 
-  @ManyToMany(mappedBy = "actors", cascade = CascadeType.ALL)
+  @ManyToMany(mappedBy = "actors")
   @JsonIgnore
   private List<Movie> movies;
 }

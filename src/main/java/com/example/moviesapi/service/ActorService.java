@@ -2,11 +2,15 @@ package com.example.moviesapi.service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.moviesapi.dto.ActorDTO;
 import com.example.moviesapi.model.entity.Actor;
 import com.example.moviesapi.model.repository.ActorRepository;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Service
 public class ActorService {
@@ -25,16 +29,9 @@ public class ActorService {
         .toList();
   }
 
-  public ActorDTO getActorById(Long id) {
-    if (id == null) {
-      return null;
-    }
-
+  public ActorDTO getActorById(@NotNull @Valid Long id) {
+    @SuppressWarnings("null")
     Optional<Actor> optionalActor = actorRepository.findById(id);
-
-    if (optionalActor.isEmpty()) {
-      return null;
-    }
 
     ActorDTO result = new ActorDTO(
         optionalActor.get().getId(),
@@ -49,16 +46,12 @@ public class ActorService {
 
   public Actor registerActor(Actor actor) {
     if (actor.getId() != null) {
-      return null;
+      throw new RuntimeException("ID não deve ser informado");
     }
     return actorRepository.save(actor);
   }
 
   public Actor updateActor(Actor actor) {
-    if (actor.getId() == null) {
-      return null;
-    }
-
     @SuppressWarnings("null")
     Actor actorToUpdate = actorRepository.findById(actor.getId()).get();
     actorToUpdate.setName(actor.getName());
@@ -66,12 +59,9 @@ public class ActorService {
     return result;
   }
 
-  public String deleteActor(Long id) {
+  @SuppressWarnings("null")
+  public String deleteActor(@NotNull @Valid Long id) {
     Actor actorToBeDeleted = getActorById(id).toActor();
-
-    if (actorToBeDeleted == null) {
-      return "Não foi possível excluir pois nada foi encontrado com o ID " + id;
-    }
     String actorName = actorToBeDeleted.getName();
     actorRepository.deleteById(id);
     return "O ator/atriz '" + actorName + "' de ID " + id + " foi excluído com sucesso!";
