@@ -43,7 +43,12 @@ public class Movie {
   @JsonIgnore
   private Franchise franchise;
 
-  @ManyToMany(mappedBy = "movies")
+  @ManyToMany
+  @JoinTable(
+    name = "director_movie", 
+    joinColumns = @JoinColumn(name = "director_id"), 
+    inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
   private List<Director> directors;  
 
   @ManyToMany(mappedBy = "movies")

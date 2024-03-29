@@ -74,8 +74,18 @@ public class MovieController {
   }
 
   @PutMapping("{movie_id}/add_actor/{actor_id}")
-  public ResponseEntity<String> addActorToMovie(@PathVariable Long movie_id, @PathVariable Long actor_id) {
+  public ResponseEntity<String> addActorToMovie(
+      @PathVariable Long movie_id,
+      @PathVariable Long actor_id) {
     String result = movieService.addActorToMovie(movie_id, actor_id);
+    return ResponseEntity.ok(result);
+  }
+
+  @PutMapping("{movie_id}/add_director/{director_id}")
+  public ResponseEntity<String> addDirectorToMovie(
+      @PathVariable Long movie_id,
+      @PathVariable Long director_id) {
+    String result = movieService.addDirectorToMovie(movie_id, director_id);
     return ResponseEntity.ok(result);
   }
 }

@@ -29,7 +29,7 @@ public class DirectorService {
         .toList();
   }
 
-  public DirectorDTO getDirectorById(Long id) {
+  public DirectorDTO getDirectorById(@NotNull @Valid Long id) {
     @SuppressWarnings("null")
     Optional<Director> optionalDirector = directorRepository.findById(id);
 

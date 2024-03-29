@@ -3,21 +3,40 @@ package com.example.moviesapi.service;
 import java.util.List;
 import java.util.Optional;
 import com.example.moviesapi.model.entity.Actor;
+import com.example.moviesapi.model.entity.Director;
 import com.example.moviesapi.model.entity.Franchise;
 import com.example.moviesapi.model.entity.Movie;
 import com.example.moviesapi.model.repository.MovieRepository;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MovieService {
 
-  @Autowired
   private MovieRepository movieRepository;
-  @Autowired
   private FranchiseService franchiseService;
-  @Autowired
   private ActorService actorService;
+  private DirectorService directorService;
+
+  // Pelo que li, quando temos um único contructor na camada, o autowired não
+  // seria mais necessário a partir da versão 3. alguma coisa do Spring...
+  // Mas estou mantendo aqui porque não dá pra confiar em tudo o que
+  // a gente lê na internet, né? XD
+  @Autowired
+  public MovieService(
+      MovieRepository movieRepository,
+      FranchiseService franchiseService,
+      ActorService actorService,
+      DirectorService directorService) {
+    this.movieRepository = movieRepository;
+    this.franchiseService = franchiseService;
+    this.actorService = actorService;
+    this.directorService = directorService;
+  }
 
   public List<Movie> getAllMovies() {
     return movieRepository.findAll();
@@ -79,6 +98,25 @@ public class MovieService {
     String result = String.format(
         "O ator '%s' foi incluído no filme '%s'",
         actor.getName(), movie.getTitle());
+
+    return result;
+  }
+
+  public String addDirectorToMovie(
+      @NotNull @Valid Long movie_id,
+      @NotNull @Valid Long director_id) {
+    Movie movie = getMovieById(movie_id)
+        .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+    Director director = directorService.getDirectorById(director_id).toDirector();
+
+    List<Director> directorList = movie.getDirectors();
+    directorList.add(director);
+    movie.setDirectors(directorList);
+    movieRepository.save(movie);
+
+    String result = String.format(
+        "O diretor '%s' foi incluído no filme '%s'",
+        director.getName(), movie.getTitle());
 
     return result;
   }
