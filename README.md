@@ -9,7 +9,7 @@ O objetivo deste projeto foi desensvolver uma API rest utilizando o Spring e con
 
 Clone o projeto, execute `mvn install` para certificar de que as dependências foram corretamente instaladas e rode `mvn spring-boot:run` para executar o projeto em modo desenvolvimento. Os end-points tem como raiz a url base do Spring (normalmente `http://localhost:8080/`) mais alguma subrota.
 
-É possível importar os end-points que estão disponíveis no JSON `ntt-spring-movies-endpoints.json` para os clientes http [Bruno](https://www.usebruno.com/) ou [Postman](https://www.postman.com/) e migrations iniciais para o banco de dados estão disponíveis no arquivo `migrations.sql`.
+É possível importar os end-points que estão disponíveis no JSON `ntt-spring-movies.json` para os clientes http [Bruno](https://www.usebruno.com/) ou [Postman](https://www.postman.com/) e migrations iniciais para o banco de dados estão disponíveis no arquivo `migrations.sql`.
 
 
 ## Observações
