@@ -6,14 +6,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.moviesapi.model.entity.Movie;
 import com.example.moviesapi.model.entity.Streaming;
 import com.example.moviesapi.model.repository.StreamingRepository;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Service
 public class StreamingService {
 
   @Autowired
   StreamingRepository streamingRepository;
+
+  @Autowired
+  MovieService movieService;
 
   public List<Streaming> getAllStreamings() {
     return streamingRepository.findAll();
@@ -62,4 +69,18 @@ public class StreamingService {
     streamingRepository.deleteById(id);
     return "O streaming '" + streamingName + "' de ID " + id + " foi excluído com sucesso!";
   }
+
+   public Streaming associateStreamingToMovie(@NotNull @Valid Long movie_id, @NotNull @Valid Long streaming_id) {
+    Movie movie = movieService.getMovieById(movie_id).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+    Streaming streaming = getStreamingById(streaming_id);
+
+    List<Movie> movieList = streaming.getMovies();
+    movieList.add(movie);
+    streaming.setMovies(movieList);
+    
+    streamingRepository.save(streaming);
+
+    return streaming;
+  }
+
 }

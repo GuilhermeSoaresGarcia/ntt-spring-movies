@@ -48,4 +48,12 @@ public class StreamingController {
   public String deleteStreaming(@PathVariable Long id){
     return streamingService.deleteStreaming(id);
   }
+  
+  @PutMapping("{streaming_id}/movie/{movie_id}")
+  public Streaming associateStreamingToMovie(
+      @PathVariable Long streaming_id,
+      @PathVariable Long movie_id) {
+    Streaming result = streamingService.associateStreamingToMovie(streaming_id,movie_id);
+    return result;
+  }
 }
