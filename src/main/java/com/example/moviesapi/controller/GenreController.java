@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +29,14 @@ public class GenreController {
   GenreService genreService;
 
   @GetMapping("/list")
-  public List<Genre> getAllGenres() {
-    return genreService.getAllGenres();
+  public ResponseEntity<List<Genre>> getAllGenres() {
+    return ResponseEntity.ok(genreService.getAllGenres());
   }
 
   @GetMapping("/{id}")
-  public Genre getGenreById(@PathVariable Long id) {
+  public ResponseEntity<Genre> getGenreById(@PathVariable Long id) {
     try {
-      return genreService.getGenreById(id);
+      return ResponseEntity.ok(genreService.getGenreById(id));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, e.getMessage());
@@ -43,9 +44,9 @@ public class GenreController {
   }
 
   @PostMapping("/save")
-  public Genre registerGenre(@RequestBody Genre genre) {
+  public ResponseEntity<Genre> registerGenre(@RequestBody Genre genre) {
     try {
-      return genreService.registerGenre(genre);
+      return ResponseEntity.ok(genreService.registerGenre(genre));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -53,9 +54,9 @@ public class GenreController {
   }
 
   @PutMapping("/update")
-  public Genre updateGenre(@RequestBody Genre genre) {
+  public ResponseEntity<Genre> updateGenre(@RequestBody Genre genre) {
     try {
-      return genreService.updateGenre(genre);
+      return ResponseEntity.ok(genreService.updateGenre(genre));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -63,9 +64,9 @@ public class GenreController {
   }
 
   @DeleteMapping("/delete/{id}")
-  public String deleteGenre(@PathVariable Long id) {
+  public ResponseEntity<String> deleteGenre(@PathVariable Long id) {
     try {
-      return genreService.deleteGenre(id);
+      return ResponseEntity.ok(genreService.deleteGenre(id));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, e.getMessage());
