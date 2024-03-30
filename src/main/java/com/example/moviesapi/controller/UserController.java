@@ -8,12 +8,14 @@ import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,5 +51,35 @@ public class UserController {
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<String> deleteUser(@PathVariable Long id) {
     return ResponseEntity.ok(userService.deleteUser(id));
+  }
+
+  @PutMapping("/{user_id}/bookmark/{movie_id}")
+  public String setMovieBookmark(@PathVariable String id, @RequestBody String entity) {
+
+    return entity;
+  }
+
+  @PutMapping("/{user_id}/favorites/{movie_id}")
+  public ResponseEntity<String> addFavoriteMovie(
+      @PathVariable Long user_id,
+      @PathVariable Long movie_id) {
+    try {
+      return ResponseEntity.ok(userService.addFavoriteMovie(user_id, movie_id));
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, e.getMessage());
+    }
+  }
+
+  @PutMapping("/{user_id}/favorites/{movie_id}")
+  public ResponseEntity<String> removeFavoriteMovie(
+      @PathVariable Long user_id,
+      @PathVariable Long movie_id) {
+    try {
+      return ResponseEntity.ok(userService.removeFavoriteMovie(user_id, movie_id));
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, e.getMessage());
+    }
   }
 }

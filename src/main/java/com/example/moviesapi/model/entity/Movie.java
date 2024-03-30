@@ -44,21 +44,18 @@ public class Movie {
   private Franchise franchise;
 
   @ManyToMany
-  @JoinTable(
-    name = "director_movie", 
-    joinColumns = @JoinColumn(name = "director_id"), 
-    inverseJoinColumns = @JoinColumn(name = "movie_id")
-    )
-  private List<Director> directors;  
+  @JoinTable(name = "director_movie", joinColumns = @JoinColumn(name = "director_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
+  private List<Director> directors;
 
   @ManyToMany(mappedBy = "movies")
   private List<Streaming> streaming;
 
   @ManyToMany
-  @JoinTable(
-    name = "movie_actor", 
-    joinColumns = @JoinColumn(name = "movie_id"),
-    inverseJoinColumns = @JoinColumn(name = "actor_id")
-    )
+  @JoinTable(name = "movie_actor", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "actor_id"))
   private List<Actor> actors;
+
+  @ManyToOne
+  @JsonIgnore
+  @JoinColumn(name = "user_id")
+  private User user;
 }

@@ -1,9 +1,13 @@
 package com.example.moviesapi.model.entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,4 +39,7 @@ public class User {
   @NotNull
   @NotBlank
   private String password;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Movie> favorites;
 }

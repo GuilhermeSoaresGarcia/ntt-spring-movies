@@ -6,8 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.moviesapi.model.entity.Movie;
 import com.example.moviesapi.model.entity.User;
 import com.example.moviesapi.model.repository.UserRepository;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Service
 public class UserService {
@@ -15,11 +19,14 @@ public class UserService {
   @Autowired
   UserRepository userRepository;
 
+  @Autowired
+  MovieService movieService;
+
   public List<User> getAllUsers() {
     return userRepository.findAll();
   }
 
-  public User getUserById(Long id) {
+  public User getUserById(@NotNull @Valid Long id) {
     if (id == null) {
       return null;
     }
@@ -55,7 +62,7 @@ public class UserService {
     return result;
   }
 
-  public String deleteUser(Long id) {
+  public String deleteUser(@NotNull @Valid Long id) {
     User userToBeDeleted = getUserById(id);
     if (userToBeDeleted == null) {
       return "Não foi possível excluir pois nada foi encontrado com o ID " + id;
@@ -63,5 +70,31 @@ public class UserService {
     String userName = userToBeDeleted.getName();
     userRepository.deleteById(id);
     return "O usuário '" + userName + "' de ID " + id + " foi excluído com sucesso!";
+  }
+
+  public String addFavoriteMovie(
+      @NotNull @Valid Long userId,
+      @NotNull @Valid Long movieId) {
+    @SuppressWarnings("null")
+    User user = userRepository.findById(userId).get();
+    Movie movie = movieService.getMovieById(movieId).get();
+    user.getFavorites().add(movie);
+    userRepository.save(user);
+    return String.format(
+        "Filme '%s' adicionado aos favoritos de '%s'",
+        user.getUsername(), movie.getTitle());
+  }
+
+  public String removeFavoriteMovie(
+      @NotNull @Valid Long userId,
+      @NotNull @Valid Long movieId) {
+    @SuppressWarnings("null")
+    User user = userRepository.findById(userId).get();
+    Movie movie = movieService.getMovieById(movieId).get();
+    user.getFavorites().remove(movie);
+    userRepository.save(user);
+    return String.format(
+        "Filme '%s' removido dos favoritos de '%s'",
+        user.getUsername(), movie.getTitle());
   }
 }
