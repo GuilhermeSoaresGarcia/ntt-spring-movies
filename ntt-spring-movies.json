@@ -644,6 +644,66 @@
       "items": [
         {
           "type": "http",
+          "name": "add actor to movie",
+          "seq": 8,
+          "request": {
+            "url": "http://localhost:8080/movie/1/add_actor/18",
+            "method": "PUT",
+            "headers": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "auth": {
+              "mode": "none",
+              "basic": {
+                "username": "",
+                "password": ""
+              },
+              "bearer": {
+                "token": ""
+              }
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "query": []
+          }
+        },
+        {
+          "type": "http",
+          "name": "add director to movie",
+          "seq": 9,
+          "request": {
+            "url": "http://localhost:8080/movie/1/add_director/1",
+            "method": "PUT",
+            "headers": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "auth": {
+              "mode": "none",
+              "basic": {
+                "username": "",
+                "password": ""
+              },
+              "bearer": {
+                "token": ""
+              }
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "query": []
+          }
+        },
+        {
+          "type": "http",
           "name": "all movies",
           "seq": 1,
           "request": {
@@ -868,6 +928,36 @@
       "items": [
         {
           "type": "http",
+          "name": "add movie to streaming",
+          "seq": 6,
+          "request": {
+            "url": "http://localhost:8080/streaming/1/add_movie/1",
+            "method": "PUT",
+            "headers": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "auth": {
+              "mode": "none",
+              "basic": {
+                "username": "",
+                "password": ""
+              },
+              "bearer": {
+                "token": ""
+              }
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "query": []
+          }
+        },
+        {
+          "type": "http",
           "name": "create new",
           "seq": 3,
           "request": {
@@ -989,15 +1079,14 @@
         },
         {
           "type": "http",
-          "name": "update",
-          "seq": 4,
+          "name": "remove movie from streaming",
+          "seq": 7,
           "request": {
-            "url": "http://localhost:8080/streaming/update",
+            "url": "http://localhost:8080/streaming/3/remove_movie/3",
             "method": "PUT",
             "headers": [],
             "body": {
-              "mode": "json",
-              "json": "{\n  \"id\": 4,\n  \"name\": \"Max\",\n  \"url\": \"www.max.com.br\"\n}",
+              "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
             },
@@ -1020,14 +1109,15 @@
         },
         {
           "type": "http",
-          "name": "associate streaming with movie",
-          "seq": 6,
+          "name": "update",
+          "seq": 4,
           "request": {
-            "url": "http://localhost:8080/movie/1/streaming/2",
+            "url": "http://localhost:8080/streaming/update",
             "method": "PUT",
             "headers": [],
             "body": {
-              "mode": "none",
+              "mode": "json",
+              "json": "{\n  \"id\": 4,\n  \"name\": \"Max\",\n  \"url\": \"www.max.com.br\"\n}",
               "formUrlEncoded": [],
               "multipartForm": []
             },
@@ -1344,6 +1434,66 @@
             "body": {
               "mode": "json",
               "json": "{\n  \"id\": 4,\n  \"name\": \"José\",\n  \"username\": \"Zeca\",\n  \"email\": \"zedascouves@gmail.com\",\n  \"password\": \"senhadoze\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "auth": {
+              "mode": "none",
+              "basic": {
+                "username": "",
+                "password": ""
+              },
+              "bearer": {
+                "token": ""
+              }
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "query": []
+          }
+        },
+        {
+          "type": "http",
+          "name": "add favorite movie",
+          "seq": 6,
+          "request": {
+            "url": "http://localhost:8080/user/1/add_bookmark/2",
+            "method": "PUT",
+            "headers": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "auth": {
+              "mode": "none",
+              "basic": {
+                "username": "",
+                "password": ""
+              },
+              "bearer": {
+                "token": ""
+              }
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "query": []
+          }
+        },
+        {
+          "type": "http",
+          "name": "remove bookmark movie",
+          "seq": 7,
+          "request": {
+            "url": "http://localhost:8080/user/1/remove_bookmark/1",
+            "method": "PUT",
+            "headers": [],
+            "body": {
+              "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
             },
