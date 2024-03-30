@@ -43,9 +43,9 @@ public class DirectorController {
   }
 
   @PostMapping("/save")
-  public Director registerDirector(@RequestBody Director director) {
+  public ResponseEntity<Director> registerDirector(@RequestBody Director director) {
     try {
-      return directorService.registerDirector(director);
+      return ResponseEntity.ok(directorService.registerDirector(director));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -53,9 +53,9 @@ public class DirectorController {
   }
 
   @PutMapping("/update")
-  public Director updateDirector(@RequestBody Director director) {
+  public ResponseEntity<Director> updateDirector(@RequestBody Director director) {
     try {
-      return directorService.updateDirector(director);
+      return ResponseEntity.ok(directorService.updateDirector(director));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -63,9 +63,9 @@ public class DirectorController {
   }
 
   @DeleteMapping("/delete/{id}")
-  public String deleteDirector(@PathVariable Long id) {
+  public ResponseEntity<String> deleteDirector(@PathVariable Long id) {
     try {
-      return directorService.deleteDirector(id);
+      return ResponseEntity.ok(directorService.deleteDirector(id));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, e.getMessage());
