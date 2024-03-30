@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.example.moviesapi.model.entity.Franchise;
 import com.example.moviesapi.model.repository.FranchiseRepository;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 @Service
 public class FranchiseService {
 
@@ -19,7 +22,7 @@ public class FranchiseService {
     return franchiseRepository.findAll();
   }
 
-  public Franchise getFranchiseById(Long id) {
+  public Franchise getFranchiseById(@NotNull @Valid Long id) {
     if (id == null) {
       return null;
     }
@@ -52,7 +55,8 @@ public class FranchiseService {
     return result;
   }
 
-  public String deleteFranchise(Long id) {
+  @SuppressWarnings("null")
+  public String deleteFranchise(@NotNull @Valid Long id) {
     Franchise franchiseToBeDeleted = getFranchiseById(id);
     if (franchiseToBeDeleted == null) {
       return "Não foi possível excluir pois nada foi encontrado com o ID " + id;

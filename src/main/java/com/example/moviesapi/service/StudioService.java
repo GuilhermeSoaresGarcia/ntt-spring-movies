@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.example.moviesapi.model.entity.Studio;
 import com.example.moviesapi.model.repository.StudioRepository;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 @Service
 public class StudioService {
 
@@ -19,7 +22,7 @@ public class StudioService {
     return studioRepository.findAll();
   }
 
-  public Studio getStudioById(Long id) {
+  public Studio getStudioById(@NotNull @Valid Long id) {
     if (id == null) {
       return null;
     }
@@ -52,7 +55,8 @@ public class StudioService {
     return result;
   }
 
-  public String deleteStudio(Long id) {
+  @SuppressWarnings("null")
+  public String deleteStudio(@NotNull @Valid Long id) {
     Studio studioToBeDeleted = getStudioById(id);
     if (studioToBeDeleted == null) {
       return "Não foi possível excluir pois nada foi encontrado com o ID " + id;

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.example.moviesapi.model.entity.Genre;
 import com.example.moviesapi.model.repository.GenreRepository;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 @Service
 public class GenreService {
 
@@ -19,7 +22,7 @@ public class GenreService {
     return genreRepository.findAll();
   }
 
-  public Genre getGenreById(Long id) {
+  public Genre getGenreById(@NotNull @Valid Long id) {
     if (id == null) {
       return null;
     }
@@ -52,7 +55,8 @@ public class GenreService {
     return result;
   }
 
-  public String deleteGenre(Long id) {
+  @SuppressWarnings("null")
+  public String deleteGenre(@NotNull @Valid Long id) {
     Genre genreToBeDeleted = getGenreById(id);
     if (genreToBeDeleted == null) {
       return "Não foi possível excluir pois nada foi encontrado com o ID " + id;

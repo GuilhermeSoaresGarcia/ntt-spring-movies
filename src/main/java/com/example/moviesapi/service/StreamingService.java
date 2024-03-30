@@ -26,7 +26,7 @@ public class StreamingService {
     return streamingRepository.findAll();
   }
 
-  public Streaming getStreamingById(Long id) {
+  public Streaming getStreamingById(@NotNull @Valid Long id) {
     if (id == null) {
       return null;
     }
@@ -60,7 +60,8 @@ public class StreamingService {
     return result;
   }
 
-  public String deleteStreaming(Long id) {
+  @SuppressWarnings("null")
+  public String deleteStreaming(@NotNull @Valid Long id) {
     Streaming streamingToBeDeleted = getStreamingById(id);
     if (streamingToBeDeleted == null) {
       return "Não foi possível excluir pois nada foi encontrado com o ID " + id;
@@ -70,7 +71,9 @@ public class StreamingService {
     return "O streaming '" + streamingName + "' de ID " + id + " foi excluído com sucesso!";
   }
 
-  public String associateStreamingToMovie(@NotNull @Valid Long streaming_id, @NotNull @Valid Long movie_id) {
+  public String associateStreamingToMovie(
+      @NotNull @Valid Long streaming_id,
+      @NotNull @Valid Long movie_id) {
     Movie movie = movieService.getMovieById(movie_id)
         .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
     Streaming streaming = getStreamingById(streaming_id);
@@ -87,7 +90,9 @@ public class StreamingService {
     return result;
   }
 
-  public String removeMovieFromStreaming(@NotNull @Valid Long streaming_id, @NotNull @Valid Long movie_id) {
+  public String removeMovieFromStreaming(
+      @NotNull @Valid Long streaming_id,
+      @NotNull @Valid Long movie_id) {
     Movie movie = movieService.getMovieById(movie_id)
         .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
     Streaming streaming = getStreamingById(streaming_id);
