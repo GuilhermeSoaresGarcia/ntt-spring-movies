@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,27 +27,27 @@ public class StudioController {
   StudioService studioService;
 
   @GetMapping("/list")
-  public List<Studio> getAllStudios() {
-    return studioService.getAllStudios();
+  public ResponseEntity<List<Studio>> getAllStudios() {
+    return ResponseEntity.ok(studioService.getAllStudios());
   }
 
   @GetMapping("/{id}")
-  public Studio getStudioById(@PathVariable Long id) {
-    return studioService.getStudioById(id);
+  public ResponseEntity<Studio> getStudioById(@PathVariable Long id) {
+    return ResponseEntity.ok(studioService.getStudioById(id));
   }
 
   @PostMapping("/save")
-  public Studio registerStudio(@RequestBody Studio studio) {
-    return studioService.registerStudio(studio);      
+  public ResponseEntity<Studio> registerStudio(@RequestBody Studio studio) {
+    return ResponseEntity.ok(studioService.registerStudio(studio));
   }
 
   @PutMapping("/update")
-  public Studio updateStudio(@RequestBody Studio studio) {
-      return studioService.updateStudio(studio);
+  public ResponseEntity<Studio> updateStudio(@RequestBody Studio studio) {
+    return ResponseEntity.ok(studioService.updateStudio(studio));
   }
 
   @DeleteMapping("/delete/{id}")
-  public String deleteStudio(@PathVariable Long id){
-    return studioService.deleteStudio(id);
+  public ResponseEntity<String> deleteStudio(@PathVariable Long id) {
+    return ResponseEntity.ok(studioService.deleteStudio(id));
   }
 }

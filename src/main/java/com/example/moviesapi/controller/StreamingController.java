@@ -25,13 +25,13 @@ public class StreamingController {
   StreamingService streamingService;
 
   @GetMapping("/list")
-  public List<Streaming> getAllStreamings() {
-    return streamingService.getAllStreamings();
+  public ResponseEntity<List<Streaming>> getAllStreamings() {
+    return ResponseEntity.ok(streamingService.getAllStreamings());
   }
 
   @GetMapping("/{id}")
-  public Streaming getStreamingById(@PathVariable Long id) {
-    return streamingService.getStreamingById(id);
+  public ResponseEntity<Streaming> getStreamingById(@PathVariable Long id) {
+    return ResponseEntity.ok(streamingService.getStreamingById(id));
   }
 
   @PostMapping("/save")
@@ -43,13 +43,13 @@ public class StreamingController {
   }
 
   @PutMapping("/update")
-  public Streaming updateStreaming(@RequestBody Streaming streaming) {
-    return streamingService.updateStreaming(streaming);
+  public ResponseEntity<Streaming> updateStreaming(@RequestBody Streaming streaming) {
+    return ResponseEntity.ok(streamingService.updateStreaming(streaming));
   }
 
   @DeleteMapping("/delete/{id}")
-  public String deleteStreaming(@PathVariable Long id) {
-    return streamingService.deleteStreaming(id);
+  public ResponseEntity<String> deleteStreaming(@PathVariable Long id) {
+    return ResponseEntity.ok(streamingService.deleteStreaming(id));
   }
 
   @PutMapping("{streaming_id}/add_movie/{movie_id}")

@@ -42,9 +42,9 @@ public class ActorController {
   }
 
   @PostMapping("/save")
-  public Actor registerActor(@RequestBody Actor actor) {
+  public ResponseEntity<Actor> registerActor(@RequestBody Actor actor) {
     try {
-      return actorService.registerActor(actor);
+      return ResponseEntity.ok(actorService.registerActor(actor));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -52,9 +52,9 @@ public class ActorController {
   }
 
   @PutMapping("/update")
-  public Actor updateActor(@RequestBody Actor actor) {
+  public ResponseEntity<Actor> updateActor(@RequestBody Actor actor) {
     try {
-      return actorService.updateActor(actor);
+      return ResponseEntity.ok(actorService.updateActor(actor));
 
     } catch (Exception e) {
       throw new ResponseStatusException(
@@ -63,9 +63,9 @@ public class ActorController {
   }
 
   @DeleteMapping("/delete/{id}")
-  public String deleteActor(@PathVariable Long id) {
+  public ResponseEntity<String> deleteActor(@PathVariable Long id) {
     try {
-      return actorService.deleteActor(id);
+      return ResponseEntity.ok(actorService.deleteActor(id));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, e.getMessage());

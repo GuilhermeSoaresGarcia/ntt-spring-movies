@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +26,14 @@ public class FranchiseController {
   FranchiseService franchiseService;
 
   @GetMapping("/list")
-  public List<Franchise> getAllFranchises() {
-    return franchiseService.getAllFranchises();
+  public ResponseEntity<List<Franchise>> getAllFranchises() {
+    return ResponseEntity.ok(franchiseService.getAllFranchises());
   }
 
   @GetMapping("/{id}")
-  public Franchise getFranchiseById(@PathVariable Long id) {
+  public ResponseEntity<Franchise> getFranchiseById(@PathVariable Long id) {
     try {
-      return franchiseService.getFranchiseById(id);
+      return ResponseEntity.ok(franchiseService.getFranchiseById(id));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, e.getMessage());
@@ -40,9 +41,9 @@ public class FranchiseController {
   }
 
   @PostMapping("/save")
-  public Franchise registerFranchise(@RequestBody Franchise franchise) {
+  public ResponseEntity<Franchise> registerFranchise(@RequestBody Franchise franchise) {
     try {
-      return franchiseService.registerFranchise(franchise);
+      return ResponseEntity.ok(franchiseService.registerFranchise(franchise));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -50,9 +51,9 @@ public class FranchiseController {
   }
 
   @PutMapping("/update")
-  public Franchise updateFranchise(@RequestBody Franchise franchise) {
+  public ResponseEntity<Franchise> updateFranchise(@RequestBody Franchise franchise) {
     try {
-      return franchiseService.updateFranchise(franchise);
+      return ResponseEntity.ok(franchiseService.updateFranchise(franchise));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -60,9 +61,9 @@ public class FranchiseController {
   }
 
   @DeleteMapping("/delete/{id}")
-  public String deleteFranchise(@PathVariable Long id) {
+  public ResponseEntity<String> deleteFranchise(@PathVariable Long id) {
     try {
-      return franchiseService.deleteFranchise(id);
+      return ResponseEntity.ok(franchiseService.deleteFranchise(id));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, e.getMessage());

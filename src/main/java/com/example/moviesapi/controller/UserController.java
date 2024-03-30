@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,27 +27,27 @@ public class UserController {
   UserService userService;
 
   @GetMapping("/list")
-  public List<User> getAllUsers() {
-    return userService.getAllUsers();
+  public ResponseEntity<List<User>> getAllUsers() {
+    return ResponseEntity.ok(userService.getAllUsers());
   }
 
   @GetMapping("/{id}")
-  public User getUserById(@PathVariable Long id) {
-    return userService.getUserById(id);
+  public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    return ResponseEntity.ok(userService.getUserById(id));
   }
 
   @PostMapping("/save")
-  public User registerUser(@RequestBody User user) {
-    return userService.registerUser(user);
+  public ResponseEntity<User> registerUser(@RequestBody User user) {
+    return ResponseEntity.ok(userService.registerUser(user));
   }
 
   @PutMapping("/update")
-  public User updateUser(@RequestBody User user) {
-    return userService.updateUser(user);
+  public ResponseEntity<User> updateUser(@RequestBody User user) {
+    return ResponseEntity.ok(userService.updateUser(user));
   }
 
   @DeleteMapping("/delete/{id}")
-  public String deleteUser(@PathVariable Long id) {
-    return userService.deleteUser(id);
+  public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+    return ResponseEntity.ok(userService.deleteUser(id));
   }
 }
