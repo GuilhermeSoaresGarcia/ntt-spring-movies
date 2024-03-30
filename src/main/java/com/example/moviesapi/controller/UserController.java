@@ -3,8 +3,6 @@ package com.example.moviesapi.controller;
 import com.example.moviesapi.model.entity.User;
 import com.example.moviesapi.service.UserService;
 
-import io.swagger.v3.oas.annotations.Hidden;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@Hidden
 @RequestMapping("user")
 public class UserController {
 
@@ -53,13 +50,7 @@ public class UserController {
     return ResponseEntity.ok(userService.deleteUser(id));
   }
 
-  @PutMapping("/{user_id}/bookmark/{movie_id}")
-  public String setMovieBookmark(@PathVariable String id, @RequestBody String entity) {
-
-    return entity;
-  }
-
-  @PutMapping("/{user_id}/favorites/{movie_id}")
+  @PutMapping("/{user_id}/add_bookmark/{movie_id}")
   public ResponseEntity<String> addFavoriteMovie(
       @PathVariable Long user_id,
       @PathVariable Long movie_id) {
@@ -71,7 +62,7 @@ public class UserController {
     }
   }
 
-  @PutMapping("/{user_id}/favorites/{movie_id}")
+  @PutMapping("/{user_id}/remove_bookmark/{movie_id}")
   public ResponseEntity<String> removeFavoriteMovie(
       @PathVariable Long user_id,
       @PathVariable Long movie_id) {

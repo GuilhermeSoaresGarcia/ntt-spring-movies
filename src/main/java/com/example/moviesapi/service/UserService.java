@@ -78,11 +78,15 @@ public class UserService {
     @SuppressWarnings("null")
     User user = userRepository.findById(userId).get();
     Movie movie = movieService.getMovieById(movieId).get();
-    user.getFavorites().add(movie);
+
+    List<Movie> favoritesList = user.getFavorites();
+    favoritesList.add(movie);
+    user.setFavorites(favoritesList);
     userRepository.save(user);
+
     return String.format(
         "Filme '%s' adicionado aos favoritos de '%s'",
-        user.getUsername(), movie.getTitle());
+        movie.getTitle(), user.getUsername());
   }
 
   public String removeFavoriteMovie(
@@ -95,6 +99,6 @@ public class UserService {
     userRepository.save(user);
     return String.format(
         "Filme '%s' removido dos favoritos de '%s'",
-        user.getUsername(), movie.getTitle());
+        movie.getTitle(), user.getUsername());
   }
 }
