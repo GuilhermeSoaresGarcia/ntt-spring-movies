@@ -3,9 +3,6 @@ package com.example.moviesapi.controller;
 import com.example.moviesapi.model.entity.Movie;
 import com.example.moviesapi.service.MovieService;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
