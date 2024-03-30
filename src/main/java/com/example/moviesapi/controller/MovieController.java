@@ -76,7 +76,7 @@ public class MovieController {
   }
 
   @DeleteMapping("delete/{id}")
-  public ResponseEntity<String> deleteMovie(@NotNull @Valid @PathVariable Long id) {
+  public ResponseEntity<String> deleteMovie(@PathVariable Long id) {
     try {
       return ResponseEntity.ok(movieService.deleteMovie(id));
     } catch (Exception e) {
@@ -87,8 +87,8 @@ public class MovieController {
 
   @PutMapping("{movie_id}/franchise/{franchise_id}")
   public ResponseEntity<Movie> associateMovieToFranchise(
-      @NotNull @Valid @PathVariable Long movie_id,
-      @NotNull @Valid @PathVariable Long franchise_id) {
+      @PathVariable Long movie_id,
+      @PathVariable Long franchise_id) {
     try {
       return ResponseEntity.ok(movieService.associateMovieToFranchise(movie_id, franchise_id));
     } catch (Exception e) {
@@ -99,8 +99,8 @@ public class MovieController {
 
   @PutMapping("{movie_id}/add_actor/{actor_id}")
   public ResponseEntity<String> addActorToMovie(
-      @NotNull @Valid @PathVariable Long movie_id,
-      @NotNull @Valid @PathVariable Long actor_id) {
+      @PathVariable Long movie_id,
+      @PathVariable Long actor_id) {
     try {
       String result = movieService.addActorToMovie(movie_id, actor_id);
       return ResponseEntity.ok(result);
@@ -112,8 +112,8 @@ public class MovieController {
 
   @PutMapping("{movie_id}/add_director/{director_id}")
   public ResponseEntity<String> addDirectorToMovie(
-      @NotNull @Valid @PathVariable Long movie_id,
-      @NotNull @Valid @PathVariable Long director_id) {
+      @PathVariable Long movie_id,
+      @PathVariable Long director_id) {
     try {
       String result = movieService.addDirectorToMovie(movie_id, director_id);
       return ResponseEntity.ok(result);
