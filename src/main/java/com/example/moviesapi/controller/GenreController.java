@@ -3,6 +3,8 @@ package com.example.moviesapi.controller;
 import com.example.moviesapi.model.entity.Genre;
 import com.example.moviesapi.service.GenreService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
-
 @RestController
+@Hidden
 @RequestMapping("genre")
 public class GenreController {
 
