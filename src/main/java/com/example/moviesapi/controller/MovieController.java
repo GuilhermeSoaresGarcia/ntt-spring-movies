@@ -66,10 +66,9 @@ public class MovieController {
   }
 
   @PutMapping("/update")
-  public Movie updateMovie(@RequestBody Movie movie) {
+  public ResponseEntity<Movie> updateMovie(@RequestBody Movie movie) {
     try {
-      Movie result = movieService.updateMovie(movie);
-      return result;
+      return ResponseEntity.ok(movieService.updateMovie(movie));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -77,9 +76,9 @@ public class MovieController {
   }
 
   @DeleteMapping("delete/{id}")
-  public String deleteMovie(@NotNull @Valid @PathVariable Long id) {
+  public ResponseEntity<String> deleteMovie(@NotNull @Valid @PathVariable Long id) {
     try {
-      return movieService.deleteMovie(id);
+      return ResponseEntity.ok(movieService.deleteMovie(id));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, e.getMessage());
@@ -87,12 +86,11 @@ public class MovieController {
   }
 
   @PutMapping("{movie_id}/franchise/{franchise_id}")
-  public Movie associateMovieToFranchise(
+  public ResponseEntity<Movie> associateMovieToFranchise(
       @NotNull @Valid @PathVariable Long movie_id,
       @NotNull @Valid @PathVariable Long franchise_id) {
     try {
-      Movie result = movieService.associateMovieToFranchise(movie_id, franchise_id);
-      return result;
+      return ResponseEntity.ok(movieService.associateMovieToFranchise(movie_id, franchise_id));
     } catch (Exception e) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, e.getMessage());
