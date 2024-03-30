@@ -24,7 +24,7 @@ public class Movie {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @NotNull
   @NotBlank

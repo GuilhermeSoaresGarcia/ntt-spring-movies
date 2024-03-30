@@ -42,7 +42,7 @@ public class MovieService {
     return movieRepository.findAll();
   }
 
-  public Optional<Movie> getMovieById(Long id) {
+  public Optional<Movie> getMovieById(@NotNull @Valid Long id) {
     @SuppressWarnings("null")
     Optional<Movie> optionalMovie = movieRepository.findById(id);
     if (optionalMovie.isEmpty()) {
@@ -53,18 +53,22 @@ public class MovieService {
 
   public List<Movie> getMovieListByTitle(String title) {
     List<Movie> movieList = movieRepository.findMoviesByTitle(title);
+    if (movieList.size() == 0) {
+      throw new RuntimeException(
+          "Nada foi encontrado com o termo '" + title + "'");
+    }
     return movieList;
   }
 
   public Movie registerMovie(Movie movie) {
-    if (movie == null) {
-      return null;
+    if (movie.getId() != null) {
+      throw new RuntimeException("ID não deve ser informado");
     }
-    Movie result = movieRepository.save(movie);
-    return result;
+    return movieRepository.save(movie);
   }
 
   public Movie updateMovie(Movie movie) {
+    @SuppressWarnings("null")
     Movie movieToUpdate = movieRepository.findById(movie.getId()).get();
     movieToUpdate.setTitle(movie.getTitle());
     Movie result = movieRepository.save(movieToUpdate);
@@ -74,7 +78,7 @@ public class MovieService {
   @SuppressWarnings("null")
   public String deleteMovie(Long id) {
     movieRepository.deleteById(id);
-    return "Deleted";
+    return "Filme excluído do banco de dados";
   }
 
   public Movie associateMovieToFranchise(Long movie_id, Long franchise_id) {
