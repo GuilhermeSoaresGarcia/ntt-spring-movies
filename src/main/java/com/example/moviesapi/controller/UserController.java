@@ -32,22 +32,42 @@ public class UserController {
 
   @GetMapping("/{id}")
   public ResponseEntity<User> getUserById(@PathVariable Long id) {
-    return ResponseEntity.ok(userService.getUserById(id));
+    try {
+      return ResponseEntity.ok(userService.getUserById(id));
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, e.getMessage());
+    }
   }
 
   @PostMapping("/save")
   public ResponseEntity<User> registerUser(@RequestBody User user) {
-    return ResponseEntity.ok(userService.registerUser(user));
+    try {
+      return ResponseEntity.ok(userService.registerUser(user));
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, e.getMessage());
+    }
   }
 
   @PutMapping("/update")
   public ResponseEntity<User> updateUser(@RequestBody User user) {
-    return ResponseEntity.ok(userService.updateUser(user));
+    try {
+      return ResponseEntity.ok(userService.updateUser(user));
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, e.getMessage());
+    }
   }
 
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-    return ResponseEntity.ok(userService.deleteUser(id));
+    try {
+      return ResponseEntity.ok(userService.deleteUser(id));
+    } catch (Exception e) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, e.getMessage());
+    }
   }
 
   @PutMapping("/{user_id}/add_bookmark/{movie_id}")
