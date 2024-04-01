@@ -9,9 +9,8 @@ import java.util.List;
 
 @Service
 public class UserMapperService {
-
   private final ModelMapper modelMapper;
-
+  
   public UserMapperService(ModelMapper modelMapper) {
     this.modelMapper = modelMapper;
   }
