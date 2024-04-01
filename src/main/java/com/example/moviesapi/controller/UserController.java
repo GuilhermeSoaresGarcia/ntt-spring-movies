@@ -1,9 +1,8 @@
 package com.example.moviesapi.controller;
 
+import com.example.moviesapi.facade.UserFacade;
 import com.example.moviesapi.model.entity.User;
-import com.example.moviesapi.service.UserService;
-
-import java.util.List;
+import com.example.moviesapi.util.ResponseUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,74 +21,100 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class UserController {
 
   @Autowired
-  UserService userService;
+  UserFacade userFacade;
 
   @GetMapping("/list")
-  public ResponseEntity<List<User>> getAllUsers() {
-    return ResponseEntity.ok(userService.getAllUsers());
+  public ResponseEntity<?> getAllUsers() {
+    try {
+      return ResponseEntity.ok(ResponseUtil.getResult(
+          "Dados encontrados",
+          200,
+          userFacade.getAllUsers()));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+          .body(ResponseUtil.getResult(e.getMessage(), 422, null));
+    }
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<User> getUserById(@PathVariable Long id) {
+  public ResponseEntity<?> getUserById(@PathVariable Long id) {
     try {
-      return ResponseEntity.ok(userService.getUserById(id));
+      return ResponseEntity.ok(ResponseUtil.getResult(
+          "Usuário encontrado",
+          200,
+          userFacade.getUserById(id)));
     } catch (Exception e) {
-      throw new ResponseStatusException(
-          HttpStatus.NOT_FOUND, e.getMessage());
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+          .body(ResponseUtil.getResult(e.getMessage(), 404, null));
     }
   }
 
   @PostMapping("/save")
-  public ResponseEntity<User> registerUser(@RequestBody User user) {
+  public ResponseEntity<?> registerUser(@RequestBody User user) {
     try {
-      return ResponseEntity.ok(userService.registerUser(user));
+      return ResponseEntity.ok(ResponseUtil.getResult(
+          "Usuário criado com sucesso",
+          201,
+          userFacade.registerUser(user)));
     } catch (Exception e) {
-      throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, e.getMessage());
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+          ResponseUtil.getResult(e.getMessage(), 400, null));
     }
   }
 
   @PutMapping("/update")
-  public ResponseEntity<User> updateUser(@RequestBody User user) {
+  public ResponseEntity<?> updateUser(@RequestBody User user) {
     try {
-      return ResponseEntity.ok(userService.updateUser(user));
+      return ResponseEntity.ok(ResponseUtil.getResult(
+          "Os dados do usuário foram atualizados",
+          200,
+          userFacade.updateUser(user)));
     } catch (Exception e) {
-      throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, e.getMessage());
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+          ResponseUtil.getResult(e.getMessage(), 400, null));
     }
   }
 
   @DeleteMapping("/delete/{id}")
-  public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+  public ResponseEntity<?> deleteUser(@PathVariable Long id) {
     try {
-      return ResponseEntity.ok(userService.deleteUser(id));
+      return ResponseEntity.ok(ResponseUtil.getResult(
+          userFacade.deleteUser(id),
+          200,
+          null));
     } catch (Exception e) {
-      throw new ResponseStatusException(
-          HttpStatus.NOT_FOUND, e.getMessage());
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+          ResponseUtil.getResult(e.getMessage(), 400, null));
     }
   }
 
   @PutMapping("/{user_id}/add_bookmark/{movie_id}")
-  public ResponseEntity<String> addFavoriteMovie(
+  public ResponseEntity<?> addFavoriteMovie(
       @PathVariable Long user_id,
       @PathVariable Long movie_id) {
     try {
-      return ResponseEntity.ok(userService.addFavoriteMovie(user_id, movie_id));
+      return ResponseEntity.ok(ResponseUtil.getResult(
+          userFacade.addFavoriteMovie(user_id, movie_id),
+          201,
+          null));
     } catch (Exception e) {
-      throw new ResponseStatusException(
-          HttpStatus.NOT_FOUND, e.getMessage());
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+          ResponseUtil.getResult(e.getMessage(), 400, null));
     }
   }
 
   @PutMapping("/{user_id}/remove_bookmark/{movie_id}")
-  public ResponseEntity<String> removeFavoriteMovie(
+  public ResponseEntity<?> removeFavoriteMovie(
       @PathVariable Long user_id,
       @PathVariable Long movie_id) {
     try {
-      return ResponseEntity.ok(userService.removeFavoriteMovie(user_id, movie_id));
+      return ResponseEntity.ok(ResponseUtil.getResult(
+          userFacade.removeFavoriteMovie(user_id, movie_id),
+          202,
+          null));
     } catch (Exception e) {
-      throw new ResponseStatusException(
-          HttpStatus.NOT_FOUND, e.getMessage());
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+          ResponseUtil.getResult(e.getMessage(), 400, null));
     }
   }
 }
