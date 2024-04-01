@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResultDTO {
-
   private String message;
   private int status;
+  private Object data;
 }
