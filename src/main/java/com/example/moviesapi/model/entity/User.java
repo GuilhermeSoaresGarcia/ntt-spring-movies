@@ -41,4 +41,6 @@ public class User {
 
   @ElementCollection
   private List<Movie> favorites;
+
+  private Address address;
 }
