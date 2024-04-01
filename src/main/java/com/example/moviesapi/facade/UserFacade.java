@@ -15,7 +15,7 @@ public interface UserFacade {
 
   String deleteUser(Long id);
 
-  String addFavoriteMovie();
+  String addFavoriteMovie(Long user_id, Long movie_id);
 
-  String removeFavoriteMovie();
+  String removeFavoriteMovie(Long user_id, Long movie_id);
 }
