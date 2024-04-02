@@ -1,7 +1,7 @@
 # NTT Spring Movies
 
 - Projeto desenvolvido em framework [Spring](https://spring.io/), versão 3.2.4
-- Utilizadas bibliotecas Spring Web, Spring Devtools, Spring Validation, driver MySQL e Lombok
+- Utilizadas bibliotecas Spring Web, Spring Devtools, Spring Validation, driver MySQL, Lombok, SpringDoc OpenAPI Starter WebMVC UI, ModelMapper e Apache Commons Lang.
 
 O objetivo deste projeto foi desensvolver uma API rest utilizando o Spring e conectando-se a um bando de dados - neste caso, o MySQL.
 
