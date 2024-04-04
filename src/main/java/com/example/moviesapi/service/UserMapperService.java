@@ -9,17 +9,17 @@ import java.util.List;
 
 @Service
 public class UserMapperService {
-  private final ModelMapper modelMapper;
+  private static ModelMapper modelMapper = new ModelMapper();
   
   public UserMapperService(ModelMapper modelMapper) {
-    this.modelMapper = modelMapper;
+    UserMapperService.modelMapper = modelMapper;
   }
 
-  public UserDTO mapUserToUserDTO(User user) {
+  public static UserDTO mapUserToUserDTO(User user) {
     return modelMapper.map(user, UserDTO.class);
   }
 
-  public List<UserDTO> mapUsersToUserDTOs(List<User> users) {
+  public static List<UserDTO> mapUsersToUserDTOs(List<User> users) {
     return users.stream().map(user -> mapUserToUserDTO(user)).toList();
   }
 }
