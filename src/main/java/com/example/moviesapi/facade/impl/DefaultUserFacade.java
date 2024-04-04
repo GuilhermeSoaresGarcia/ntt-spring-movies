@@ -23,9 +23,6 @@ public class DefaultUserFacade implements UserFacade {
   UserService userService;
 
   @Autowired
-  UserMapperService userMapperService;
-
-  @Autowired
   MovieService movieService;
 
   @Override
@@ -34,7 +31,7 @@ public class DefaultUserFacade implements UserFacade {
     if (CollectionUtils.isEmpty(usersList)) {
       throw new RuntimeException("Nenhum usuário cadastrado ainda.");
     }
-    return userMapperService.mapUsersToUserDTOs(usersList);
+    return UserMapperService.mapUsersToUserDTOs(usersList);
   }
 
   @Override
@@ -44,7 +41,7 @@ public class DefaultUserFacade implements UserFacade {
       throw new RuntimeException("Nenhum usuário encontrado");
     }
     User user = optionalUser.get();
-    return userMapperService.mapUserToUserDTO(user);
+    return UserMapperService.mapUserToUserDTO(user);
   }
 
   @Override
@@ -52,7 +49,7 @@ public class DefaultUserFacade implements UserFacade {
     if (user.getId() != null) {
       throw new RuntimeException("O ID não deve ser informado");
     }
-    return userMapperService.mapUserToUserDTO(userService.saveUser(user));
+    return UserMapperService.mapUserToUserDTO(userService.saveUser(user));
   }
 
   @Override
@@ -74,7 +71,7 @@ public class DefaultUserFacade implements UserFacade {
     userToUpdate.setPassword(user.getPassword());
     User savedUser = userService.saveUser(userToUpdate);
 
-    return userMapperService.mapUserToUserDTO(savedUser);
+    return UserMapperService.mapUserToUserDTO(savedUser);
   }
 
   @Override
