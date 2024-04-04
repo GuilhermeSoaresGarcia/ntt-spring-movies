@@ -7,5 +7,5 @@ import com.example.moviesapi.model.entity.Address;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
-
+  Address findFirstByCep(String cep);
 }
