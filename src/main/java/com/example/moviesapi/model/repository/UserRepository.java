@@ -7,5 +7,5 @@ import com.example.moviesapi.model.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
+  User findByUsername(String subject);
 }
