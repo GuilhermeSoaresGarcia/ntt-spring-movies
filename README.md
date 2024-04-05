@@ -11,9 +11,5 @@ Clone o projeto, execute `mvn install` para certificar de que as dependências f
 
 - Migrations iniciais para o banco de dados estão disponíveis no arquivo `migrations.sql`;
 - A documentação das rotas foi feita com Swagger e pode ser acessada em http://localhost:8080/swagger-ui/index.html;
-- Além do Swagger, é possível importar os end-points que estão disponíveis no JSON `ntt-spring-movies.json` para os clientes http [Bruno](https://www.usebruno.com/) ou [Postman](https://www.postman.com/).
-
-## TODO
-
-- Implementar security;
-- Revisar rotas sem uso e/ou mal implementadas.
+- Além do Swagger, é possível importar os end-points que estão disponíveis no JSON `ntt-spring-movies.json` para os clientes http [Bruno](https://www.usebruno.com/) ou [Postman](https://www.postman.com/);
+- Este projeto utiliza token (JWT) para autenticação. O login deve ser feito na rota `/user/login` e o token resultante deve ser inserido no header de authorization para o acesso completo a todas as rotas. As rotas `/user/save` e `user/update` também podem ser acessadas sem o token.
