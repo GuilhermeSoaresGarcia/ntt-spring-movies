@@ -167,6 +167,43 @@
     },
     {
       "type": "folder",
+      "name": "addresses",
+      "items": [
+        {
+          "type": "http",
+          "name": "set address to user",
+          "seq": 1,
+          "request": {
+            "url": "http://localhost:8080/address/save",
+            "method": "POST",
+            "headers": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"id\": 1,\n  \"cep\": 90830260\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "auth": {
+              "mode": "none",
+              "basic": {
+                "username": "",
+                "password": ""
+              },
+              "bearer": {
+                "token": ""
+              }
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "query": []
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
       "name": "directors",
       "items": [
         {
@@ -716,13 +753,13 @@
               "multipartForm": []
             },
             "auth": {
-              "mode": "none",
+              "mode": "bearer",
               "basic": {
                 "username": "",
                 "password": ""
               },
               "bearer": {
-                "token": ""
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpcj3MiOiJudHQtbW92aWVzIiwic3ViIjoiZ3VpZGplIiwiZXhwIjoxNzEyMzU5NDgzfQ.47Y8SIgIE0rFo-_HQs5plJ9DWEv3cPts3tSFCUU-yAM"
               }
             },
             "script": {},
@@ -1151,20 +1188,27 @@
           "request": {
             "url": "http://localhost:8080/studio/list",
             "method": "GET",
-            "headers": [],
+            "headers": [
+              {
+                "name": "a",
+                "value": "",
+                "description": "",
+                "enabled": true
+              }
+            ],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
             },
             "auth": {
-              "mode": "none",
+              "mode": "bearer",
               "basic": {
                 "username": "",
                 "password": ""
               },
               "bearer": {
-                "token": ""
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJudHQtbW92aWVzIiwic3ViIjoiZ3VpZGplIiwiZXhwIjoxNzEyMzU4NDE1fQ.X6r7iqpGoHmq1dmHkZCLRySez7P1m9rdgpKWSsFdErk"
               }
             },
             "script": {},
@@ -1498,7 +1542,7 @@
               "multipartForm": []
             },
             "auth": {
-              "mode": "none",
+              "mode": "bearer",
               "basic": {
                 "username": "",
                 "password": ""
@@ -1517,41 +1561,35 @@
       ]
     },
     {
-      "type": "folder",
-      "name": "addresses",
-      "items": [
-        {
-          "type": "http",
-          "name": "set address to user",
-          "seq": 1,
-          "request": {
-            "url": "http://localhost:8080/address/save",
-            "method": "POST",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"id\": 1,\n  \"cep\": 90830260\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
+      "type": "http",
+      "name": "login",
+      "seq": 2,
+      "request": {
+        "url": "http://localhost:8080/user/login",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"username\": \"guidje\",  \n  \"password\": \"abc123\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
           }
-        }
-      ]
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
     }
   ],
   "environments": []
