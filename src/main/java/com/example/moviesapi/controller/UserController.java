@@ -1,12 +1,15 @@
 package com.example.moviesapi.controller;
 
+import com.example.moviesapi.dto.LoginDTO;
 import com.example.moviesapi.facade.UserFacade;
 import com.example.moviesapi.model.entity.User;
+import com.example.moviesapi.util.HandleToken;
 import com.example.moviesapi.util.ResponseUtil;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +23,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("user")
 public class UserController {
 
-  @Autowired
-  UserFacade userFacade;
+  private final UserFacade userFacade;
+  private final AuthenticationManager authenticationManager;
+  private final HandleToken handleToken;
+
+  UserController(UserFacade userFacade, AuthenticationManager authenticationManager, HandleToken handleToken) {
+    this.userFacade = userFacade;
+    this.authenticationManager = authenticationManager;
+    this.handleToken = handleToken;
+  }
 
   @GetMapping("/list")
   public ResponseEntity<?> getAllUsers() {
@@ -52,10 +62,11 @@ public class UserController {
   @PostMapping("/save")
   public ResponseEntity<?> registerUser(@RequestBody User user) {
     try {
-      return ResponseEntity.ok(ResponseUtil.getResult(
-          "Usuário criado com sucesso",
-          201,
-          userFacade.registerUser(user)));
+      return ResponseEntity.status(HttpStatus.CREATED)
+          .body(ResponseUtil.getResult(
+              "Usuário criado com sucesso",
+              201,
+              userFacade.registerUser(user)));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
           ResponseUtil.getResult(e.getMessage(), 400, null));
@@ -115,6 +126,30 @@ public class UserController {
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
           ResponseUtil.getResult(e.getMessage(), 400, null));
+    }
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<?> login(@RequestBody LoginDTO userCredentials) {
+    String username = userCredentials.username();
+    String password = userCredentials.password();
+    var userAndPass = new UsernamePasswordAuthenticationToken(username, password);
+
+    try {
+      Authentication auth = authenticationManager.authenticate(userAndPass);
+      User user = (User) auth.getPrincipal();
+      String token = handleToken.generateToken(user);
+      return ResponseEntity.ok(ResponseUtil.getResult(
+          "Usuário e senha validados com sucesso",
+          200,
+          token));
+
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+          .body(ResponseUtil.getResult(
+              "Usuário e/ou senha inválidos",
+              403,
+              null));
     }
   }
 }
