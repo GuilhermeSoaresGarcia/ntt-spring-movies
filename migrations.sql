@@ -47,7 +47,7 @@ INSERT INTO directors (name) VALUES ('Lilly Wachowski');
 INSERT INTO directors (name) VALUES ('Lana Wachowski');
 INSERT INTO directors (name) VALUES ('Jonathan Demme');
 
-INSERT INTO users (name, username, email, password) VALUES ('Guilherme', 'gui', 'guilherme.garcia@email.com', 'abc123');
+INSERT INTO users (name, username, email, password) VALUES ('Guilherme', 'gui', 'guilherme.garcia@email.com', '$2a$12$eibiCrRZqH90xGJC9uBZd.fhuzt.r.36M0Ntdi8CHKoyeilZyJ/Pe');
 INSERT INTO users (name, username, email, password) VALUES ('Marina', 'mar', 'marina@placeholder.com', '123abc');
 INSERT INTO users (name, username, email, password) VALUES ('Valdor', 'valdor', 'valdor@placeholder.com', 'password');
 
