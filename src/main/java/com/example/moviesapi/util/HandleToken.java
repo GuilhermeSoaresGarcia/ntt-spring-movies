@@ -20,7 +20,7 @@ public class HandleToken {
     Algorithm algorithm = Algorithm.HMAC256(secret);
 
     return JWT.create()
-        .withIssuer("agrix")
+        .withIssuer("ntt-movies")
         .withSubject(user.getUsername())
         .withExpiresAt(generateExpirationDate())
         .sign(algorithm);
